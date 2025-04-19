@@ -1,0 +1,499 @@
+{
+	"info": {
+		"_postman_id": "aab9363d-8e5f-4b88-bfaf-06328df1447f",
+		"name": "Test_Online_Voting_app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25817263"
+	},
+	"item": [
+		{
+			"name": "get all candidate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body is a valid JSON array\", function () {\r",
+							"  pm.expect(pm.response.json()).to.be.an('array').that.is.not.empty;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://electrify-voting-app.onrender.com/candidate/getCandidates",
+					"protocol": "https",
+					"host": [
+						"electrify-voting-app",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"candidate",
+						"getCandidates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login_User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User should be logged in after password matches\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"    pm.expect(pm.response.json().success).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjMzYTU4YjI0NDI3ZGNkYzY0NjdkMyIsImlhdCI6MTcyODk3MzkyOX0.YiMxYfcThXPPN2lPHnALKSa3_lfcizhZF7PVPllIfMM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"aadharnumber\" : \"012345678999\",\r\n    \"password\" : \"user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://electrify-voting-app.onrender.com/user/login",
+					"protocol": "https",
+					"host": [
+						"electrify-voting-app",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is within an acceptable range\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required fields - success and message\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.have.property('success');\r",
+							"    pm.expect(responseData).to.have.property('message');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Success is a boolean value\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  pm.expect(responseData.success).to.be.a('boolean');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Message is a non-empty string\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmJkYjk5NGM4YTIwY2U4YzMzMWUxMCIsImlhdCI6MTc0NDU2MTk5OX0.m6teIdNClAXrvyNmbdSSZsNbrGmwRR3k_ihG5M9MJWg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currentpass\" : \"user\",\r\n    \"newpass\" : \"User\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://electrify-voting-app.onrender.com/user/update",
+					"protocol": "https",
+					"host": [
+						"electrify-voting-app",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"user",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add a admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Admin\",\r\n    \"email\" : \"admin.devx@gmail.com\",\r\n    \"aadharnumber\" : \"000000000000\",\r\n    \"phone\" : \"7909085622\",\r\n    \"password\" : \"admin\",\r\n    \"role\" : \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://electrify-voting-app.onrender.com/user/signup",
+					"protocol": "https",
+					"host": [
+						"electrify-voting-app",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"user",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_user_profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test for status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Test for response time\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"// Test for response body properties\r",
+							"pm.test(\"Response body has user details\", function () {\r",
+							"    const responseBody = pm.response.json();\r",
+							"    pm.expect(responseBody.user).to.exist;\r",
+							"    pm.expect(responseBody.user.name).to.equal(\"User\");\r",
+							"    pm.expect(responseBody.user.email).to.equal(\"User@gmail.com\");\r",
+							"    pm.expect(responseBody.user.aadharnumber).to.equal(\"012345678999\");\r",
+							"    pm.expect(responseBody.user.phone).to.equal(\"8294746282\");\r",
+							"    pm.expect(responseBody.user.role).to.equal(\"voter\");\r",
+							"    pm.expect(responseBody.user.isVoted).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmJkYjk5NGM4YTIwY2U4YzMzMWUxMCIsImlhdCI6MTc0NDU2MTk5OX0.m6teIdNClAXrvyNmbdSSZsNbrGmwRR3k_ihG5M9MJWg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://electrify-voting-app.onrender.com/user/profile",
+					"protocol": "https",
+					"host": [
+						"electrify-voting-app",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"user",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check_isAdmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test script to verify the status code\r",
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"// Test script to verify the response time\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"// Test script to verify the response body\r",
+							"pm.test(\"User is not an admin\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"user is not have a admin role\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"aadharnumber\": \"012345678999\",\r\n    \"password\": \"User\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://electrify-voting-app.onrender.com/candidate/checkAdmin",
+					"protocol": "https",
+					"host": [
+						"electrify-voting-app",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"candidate",
+						"checkAdmin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_admin_info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test for status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Test for response time\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"// Test for response body properties\r",
+							"pm.test(\"Response body has admin object\", function () {\r",
+							"    const responseBody = pm.response.json();\r",
+							"    pm.expect(responseBody).to.have.property('admin');\r",
+							"    pm.expect(responseBody.admin).to.be.an('object');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmJkNjFkNGM4YTIwY2U4YzMzMWRjOSIsImlhdCI6MTc0NDU2Mjc3NH0.pgDMVnuLhQ0X56M5bBU7PhH1W1c2zLI6GBh-KyBgV5w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://electrify-voting-app.onrender.com/candidate/adminInfo",
+					"protocol": "https",
+					"host": [
+						"electrify-voting-app",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"candidate",
+						"adminInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin_Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"aadharnumber\" : \"492008814182\",\r\n    \"password\" : \"abhi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://electrify-voting-app.onrender.com/user/login",
+					"protocol": "https",
+					"host": [
+						"electrify-voting-app",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_vote_count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test to check if the response status is 200\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Test to check if the response is in JSON format\r",
+							"pm.test(\"Response body is JSON\", function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"// Test to check the structure of the response body\r",
+							"pm.test(\"Response body has the expected structure\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.be.an('array');\r",
+							"    pm.expect(response).to.have.length(2);\r",
+							"    pm.expect(response[0]).to.have.property('party', 'BJP');\r",
+							"    pm.expect(response[0]).to.have.property('voteCount');\r",
+							"    pm.expect(response[1]).to.have.property('party', 'INC');\r",
+							"    pm.expect(response[1]).to.have.property('voteCount');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://electrify-voting-app.onrender.com/candidate/voteCount",
+					"protocol": "https",
+					"host": [
+						"electrify-voting-app",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"candidate",
+						"voteCount"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
